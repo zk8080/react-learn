@@ -19,7 +19,7 @@ const getTemplate = () => {
 }
 
 const Module = module.constructor
-const mfs = new MemoryFs
+const mfs = new MemoryFs()
 const serverCompiler = webpack(serverConfig)
 serverCompiler.outputFileSystem = mfs
 let serverBundle
@@ -38,6 +38,7 @@ serverCompiler.watch({}, (err, stats) => {
     )
     const bundle = mfs.readFileSync(bundlePath, 'utf8') //生成文件字符串
     //把字符串转化成一个模块
+    //调用module构造函数的原型方法
     const m = new Module()
     m._compile(bundle, 'server-etry.js')
     serverBundle = m.exports.default
